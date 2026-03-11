@@ -1,0 +1,77 @@
+# ========================
+# Environment & Secrets
+# ========================
+.env
+.env.local
+.env.development
+.env.production
+.env.staging
+*.env
+
+# ========================
+# Frontend (Next.js)
+# ========================
+web/node_modules/
+web/.next/
+web/out/
+web/build/
+web/.vercel/
+web/npm-debug.log*
+web/yarn-debug.log*
+web/yarn-error.log*
+web/.pnpm-debug.log*
+web/*.pem
+web/*.tsbuildinfo
+web/next-env.d.ts
+
+# ========================
+# Backend (FastAPI / Python)
+# ========================
+api/__pycache__/
+api/**/__pycache__/
+api/*.pyc
+api/*.pyo
+api/*.pyd
+api/.Python
+api/build/
+api/dist/
+api/*.egg-info/
+api/.eggs/
+api/.venv/
+api/venv/
+api/env/
+api/.pytest_cache/
+api/.mypy_cache/
+api/.ruff_cache/
+
+# ========================
+# Database
+# ========================
+*.sqlite3
+*.db
+api/alembic/versions/*.pyc
+
+# ========================
+# Docker
+# ========================
+docker-compose.override.yml
+
+# ========================
+# IDEs & Editors
+# ========================
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ========================
+# Misc
+# ========================
+*.log
+*.tmp
+*.bak
+coverage/
+.coverage
+htmlcov/
