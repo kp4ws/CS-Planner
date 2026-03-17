@@ -1,14 +1,31 @@
 "use client"
 import {useState} from 'react';
-import Link from "next/link"
+import Link from "next/link";
+import {useRouter} from "next/navigation";
 
 export default function Login() {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
 
-    const handleSubmit = (event: React.SubmitEvent) => {
+    const router = useRouter();
+
+    const handleSubmit = async (event: React.SubmitEvent) => {
         event.preventDefault();
-        console.log("Login with: ", {username, password});
+        // console.log("Login with: ", {username, password});
+        const response = await fetch("http://localhost:8000/auth/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({username, password})
+        });
+
+        const data = await response.json();
+        console.log(data);
+    };
+
+    const handleGuest = () => {
+        router.push("/planner");
     };
 
     return (
@@ -27,6 +44,7 @@ export default function Login() {
                     </div>
 
                     <button type="submit">Submit</button>
+                    <button type="button" onClick={handleGuest}>Continue As Guest</button>
                     <Link href="/register">Register</Link>
                 </form>
             </div>
