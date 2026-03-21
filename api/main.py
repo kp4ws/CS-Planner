@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from auth.routes import router as auth_router
+from users.routes import router as user_router
 from contextlib import asynccontextmanager
 import os
 from dotenv import load_dotenv, find_dotenv
@@ -35,6 +36,7 @@ app.add_middleware(
 
 #Register routers
 app.include_router(auth_router)
+app.include_router(user_router)
 
 @app.get("/")
 async def root():

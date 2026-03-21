@@ -4,5 +4,6 @@ sqlalchemy
 python-dotenv
 psycopg2-binary
 alembic
-passlib[bcrpyt]
+#passlib[bcrypt] passlib library has internal errors
+bcrypt
 python-jose[cryptography]
