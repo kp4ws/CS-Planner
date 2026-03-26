@@ -26,6 +26,3 @@ A full-stack web application designed to help Computer Science students smoothly
 **Architecture:**
 - Domain-driven modular design
 - JWT Auth
-
-## 🚀 Getting Started
-*(Instructions for running the frontend and backend locally will go here when the project is ready!)*
