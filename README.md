@@ -1,3 +1,3 @@
-# CS Planner
+# Backpack Pal
 
-An application used to help students plan their future courses in their degree.
+An application used to simplify the process of planning backpacking trips.

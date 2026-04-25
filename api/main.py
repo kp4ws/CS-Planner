@@ -40,4 +40,4 @@ app.include_router(user_router)
 
 @app.get("/")
 async def root():
-    return {"message": "CS Planner API is running"}
+    return {"message": "API is running"}

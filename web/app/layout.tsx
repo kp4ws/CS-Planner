@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import NavBar from "@/components/navbar";
 
-const inter = Inter({subsets:['latin'],variable:'--font-sans'});
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,8 +17,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CS Planner",
-  description: "Plan your CS courses efficiently with CSPlanner",
+  title: "TODO: App Title",
+  description: "TODO: App Description",
 };
 
 export default function RootLayout({
@@ -30,7 +31,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <NavBar />
+        <main>{children}</main>
+
+        {/* FOOTER SECTION */}
+        <footer className="py-10 md:py-20 bg-emerald-950 text-white text-center">
+          <p>&copy; 2026 Backpack Pal. All rights reserved.</p>
+        </footer>
       </body>
     </html>
   );
