@@ -1,7 +1,8 @@
-"use client"
+"use client";
 import Link from "next/link";
 import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
 
 export default function NavBar() {
   return (
@@ -19,10 +20,14 @@ export default function NavBar() {
         {/* DESKTOP NAVIGATION */}
         <div className="hidden md:flex items-center gap-3 md:gap-6">
           <Link href="/login" className="text-white hover:text-emerald-200">
-            Login
+            <Button size="lg" className="gap-2">
+              Login
+            </Button>
           </Link>
           <Link href="/register" className="text-white hover:text-emerald-200">
-            Register
+            <Button size="lg" className="gap-2">
+              Register
+            </Button>
           </Link>
         </div>
 
@@ -35,15 +40,6 @@ export default function NavBar() {
           </SheetTrigger>
           <SheetContent className="bg-emerald-950 [&_button]:text-white">
             <div className="flex flex-col items-center gap-4 mt-8">
-              <Link href="" className="text-white hover:text-emerald-200">
-                Builder
-              </Link>
-              <Link href="" className="text-white hover:text-emerald-200">
-                Storage Locker
-              </Link>
-
-              <hr />
-
               <Link
                 href="/login"
                 className="text-lg text-white hover:text-emerald-200"
@@ -56,22 +52,39 @@ export default function NavBar() {
               >
                 Register
               </Link>
+
+              <hr />
+
+              <Link
+                href="/trips"
+                className="text-lg text-white hover:text-emerald-200"
+              >
+                Trips
+              </Link>
+              <Link
+                href="/inventory"
+                className="text-lg text-white hover:text-emerald-200"
+              >
+                Inventory
+              </Link>
             </div>
           </SheetContent>
         </Sheet>
+
+        {/* DARK MODE TOGGLE: TODO */}
       </div>
 
-      {/* SECOND ROW */}
+      {/* SECOND ROW (Desktop Navigation) */}
       <div className="hidden md:flex border-t border-emerald-900 gap-6 px-6 py-3">
-        <Link href="" className="text-white hover:text-emerald-200">
-          Builder
+        <Link href="/trips" className="text-white hover:text-emerald-200">
+          Trips
         </Link>
-        <Link href="" className="text-white hover:text-emerald-200">
-          Storage Locker
+        <Link href="/inventory" className="text-white hover:text-emerald-200">
+          Inventory
         </Link>
-      </div>
 
-      {/* DARK MODE TOGGLE: TODO */}
+        {/* TODO: PROFILE (HIDDEN UNLESS LOGGED IN) */}
+      </div>
     </nav>
   );
 }
