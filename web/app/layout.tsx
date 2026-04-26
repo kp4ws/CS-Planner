@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "TODO: App Title",
+  title: "Backpack Pal",
   description: "TODO: App Description",
 };
 
@@ -32,7 +32,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <NavBar />
-        <main>{children}</main>
+        <main className="bg-emerald-900">{children}</main>
 
         {/* FOOTER SECTION */}
         <footer className="py-10 md:py-20 bg-emerald-950 text-white text-center">

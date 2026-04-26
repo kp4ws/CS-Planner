@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="bg-emerald-900">
+    <div className="">
       {/* HERO SECTION */}
       <section className="py-10 md:py-20 min-h-screen flex flex-col items-center justify-center">
         <h1 className="text-2xl md:text-4xl font-extrabold text-white mb-4">

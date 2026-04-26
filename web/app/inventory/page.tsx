@@ -1,7 +1,89 @@
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { Filter } from "lucide-react";
+import { useState, useEffect } from "react";
+
+import CategoryGroup from "@/components/category-group";
+import { GearItem } from "@/types";
+
 export default function Inventory() {
-    return (
-        <div>
-            
+  const [filter, setFilter] = useState<string | null>(null); //TODO: Create FilterState for more advance filtering
+  const [loading, setLoading] = useState<boolean>(true);
+  const [items, setItems] = useState<GearItem[]>([]);
+
+  const CATEGORIES: Array<string> = [
+    "Backpack",
+    "Shelter",
+    "Sleep System",
+    "Sleep Pad",
+    "Water Filter",
+    "Cooking System",
+    "Food",
+    "Layers / Clothing",
+    "Rain Gear",
+    "Navigation",
+    "First Aid",
+    "Fire Starting",
+    "Lighting",
+    "Hygiene",
+    "Other",
+  ];
+
+  useEffect(() => {
+    fetch("http://localhost:8000/inventory")
+      .then((res) => res.json())
+      .then((data) => {
+        setItems(data);
+        setLoading(false);
+      });
+  }, []);
+
+  const handleEdit = (item: GearItem) => {
+
+  };
+
+  const handleDelete = (id: string) => {
+
+  };
+
+
+  return (
+    <div className="min-h-screen px-6 py-4">
+      {/* Inventory Header */}
+      <div className="flex justify-between items-center mb-6">
+        {/* TODO: Consider hiding page headers on desktop screens */}
+        <h1 className="text-lg md:text-4xl text-white font-bold">Inventory</h1>
+
+        {/* IMPORT/EXPORT BUTTONS & FILTER */}
+        <div className="flex justify-center items-center">
+          <div className="px-4">
+            <Button size="lg">Import</Button>
+            <Button size="lg">Export</Button>
+          </div>
+
+          <Filter color="white" size={24} />
         </div>
-    );
+      </div>
+
+      {/* CATEGORY SECTIONS */}
+      <section className="flex flex-col items-start">
+        {/* TODO: Icon should be associated with each category */}
+        {CATEGORIES.map((category) => (
+          <CategoryGroup
+            key={category}
+            title={category}
+            items={items?.filter((item) => item.category === category)}
+            onEdit={(item) => handleEdit(item)}
+            onDelete={(id) => handleDelete(id)}
+          />
+        ))}
+      </section>
+
+      {/* FOOTER SECTION (ADD BUTTON) */}
+      <section className="flex justify-center items-center">
+        <Button size="lg">Add</Button>
+      </section>
+    </div>
+  );
 }
