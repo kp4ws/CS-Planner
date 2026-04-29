@@ -5,30 +5,12 @@ import { Filter } from "lucide-react";
 import { useState, useEffect } from "react";
 
 import CategoryGroup from "@/components/category-group";
-import { GearItem } from "@/types";
+import { GearItem } from "@/types"; //TODO: Since we have GearItem model, can we use that instead here?
 
 export default function Inventory() {
   const [filter, setFilter] = useState<string | null>(null); //TODO: Create FilterState for more advance filtering
   const [loading, setLoading] = useState<boolean>(true);
   const [items, setItems] = useState<GearItem[]>([]);
-
-  const CATEGORIES: Array<string> = [
-    "Backpack",
-    "Shelter",
-    "Sleep System",
-    "Sleep Pad",
-    "Water Filter",
-    "Cooking System",
-    "Food",
-    "Layers / Clothing",
-    "Rain Gear",
-    "Navigation",
-    "First Aid",
-    "Fire Starting",
-    "Lighting",
-    "Hygiene",
-    "Other",
-  ];
 
   useEffect(() => {
     fetch("http://localhost:8000/inventory")
@@ -38,6 +20,9 @@ export default function Inventory() {
         setLoading(false);
       });
   }, []);
+
+  // TODO: Fetch Categories from database
+  // TODO: Should categories be hardcoded? Is having them the database going to slow down the website?
 
   const handleEdit = (item: GearItem) => {
 

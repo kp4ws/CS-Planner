@@ -8,16 +8,11 @@ from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
 
-#TODO Seed mock data into database for development
-def seed_data():
-    pass
-
 # Manages app startup and shutdown lifecycle
 # Code before yield runs on startup, after yield runs on shutdown
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     import models
-    seed_data()
     yield
 
 app = FastAPI(lifespan=lifespan)

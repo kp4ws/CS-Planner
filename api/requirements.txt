@@ -7,3 +7,4 @@ alembic
 #passlib[bcrypt] passlib library has internal errors
 bcrypt
 python-jose[cryptography]
+pydantic-settings
