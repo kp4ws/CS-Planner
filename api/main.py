@@ -1,23 +1,23 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from auth.routes import router as auth_router
-from users.routes import router as user_router
 from contextlib import asynccontextmanager
-import os
-from dotenv import load_dotenv, find_dotenv
-
-load_dotenv(find_dotenv())
+from api.v1.endpoints import v1_router
+from api.core.config import settings
 
 # Manages app startup and shutdown lifecycle
 # Code before yield runs on startup, after yield runs on shutdown
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    '''
+    Ensures all models are "seen" by the Base on startup.
+    Triggers api/models/__init__.py for importing all models defined in that file.
+    '''
     import models
     yield
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(title="TODO: Name", lifespan=lifespan)
 
-allowed_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000").split(",")
+allowed_origins = settings.ALLOWED_ORIGINS
 
 app.add_middleware(
     CORSMiddleware,
@@ -29,9 +29,8 @@ app.add_middleware(
 
 #TODO Add exception handling
 
-#Register routers
-app.include_router(auth_router)
-app.include_router(user_router)
+#Register v1 router
+app.include_router(v1_router, prefix="/api/v1")
 
 @app.get("/")
 async def root():

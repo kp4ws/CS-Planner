@@ -6,7 +6,7 @@ from users.models import User
 from users.schemas import UserLogin, UserCreate, UserResponse
 from auth.schemas import TokenResponse
 
-router = APIRouter(prefix="/auth", tags=["auth"])
+router = APIRouter()
 
 @router.post("/login", response_model=TokenResponse)
 async def login(request: UserLogin, db: Session = Depends(get_db)):
