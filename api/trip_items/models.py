@@ -1,8 +1,7 @@
 from typing import Optional, TYPE_CHECKING
-from datetime import datetime, timezone
 import uuid
 
-from sqlalchemy import String, UUID, ForeignKey, Boolean
+from sqlalchemy import String, UUID, ForeignKey, Boolean, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from api.core.database import Base, TimestampMixin
@@ -13,6 +12,10 @@ if TYPE_CHECKING:
 
 class TripItem(Base, TimestampMixin):
     __tablename__ = "trip_items"
+
+    __table_args__ = (
+        UniqueConstraint("trip_id", "gear_item_id", name="_trip_gear_item_uc"),
+    )
 
     #Primary Key
     id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, index=True, default=uuid.uuid4)

@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Optional, List, TYPE_CHECKING
 import uuid
 
-from sqlalchemy import String, DateTime, Boolean, Enum, UUID
+from sqlalchemy import String, DateTime, Boolean, Enum, UUID, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from api.core.database import Base, TimestampMixin

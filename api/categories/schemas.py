@@ -1,16 +1,24 @@
-from pydantic import BaseModel
+from typing import Optional
 from datetime import datetime
+import uuid
+
+from pydantic import BaseModel, ConfigDict
 
 class CategoryCreate(BaseModel):
     title: str
 
 class CategoryUpdate(BaseModel):
-    title: str
+    title: Optional[str] = None
 
 class CategoryResponse(BaseModel):
-    id: int
+    id: uuid.UUID
+    user_id: uuid.UUID
     title: str
-    created_at: datetime
+    deleted_at: Optional[datetime]
+    is_default: bool
+    # icon: Mapped[str] = mapped_column() TODO: Add in later iteration
 
-    class Config:
-        from_attributes = True
+    created_at: datetime
+    updated_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)

@@ -30,8 +30,8 @@ class GearItemResponse(BaseModel):
     brand: Optional[str]
     weight_grams: int
     description: Optional[str]
-    is_consumable: Optional[bool]
-    is_worn: Optional[bool]
+    is_consumable: bool
+    is_worn: bool
 
     created_at: datetime
     updated_at: datetime
