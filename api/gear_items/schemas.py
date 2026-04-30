@@ -1,26 +1,39 @@
-from pydantic import BaseModel
+from typing import Optional
+from pydantic import BaseModel, ConfigDict
+import uuid
 from datetime import datetime
-
-# TODO: Need to finish off schema
 
 class GearItemCreate(BaseModel):
     name: str
-    # category_id = ForeignKey() TODO: Do we have both id and string or what
-    brand: str
-    weight: int
-    weight_unit: str
-    notes: str
+    category_id: uuid.UUID
+    brand: Optional[str] = None
+    weight_grams: int = 0
+    description: Optional[str] = None
+    is_consumable: bool = False
+    is_worn: bool = False
 
 class GearItemUpdate(BaseModel):
-    name: str
-    brand: str
-    weight: int
-    weight_unit: str
-    notes: str
+    #Fields are marked as optional since we have patch (partial update) instead of put
+    name: Optional[str] = None
+    category_id: Optional[uuid.UUID] = None
+    brand: Optional[str] = None
+    weight_grams: Optional[int] = None
+    description: Optional[str] = None
+    is_consumable: Optional[bool] = None
+    is_worn: Optional[bool] = None
 
 class GearItemResponse(BaseModel):
+    id: uuid.UUID
+    user_id: uuid.UUID
+    category_id: uuid.UUID
     name: str
-    brand: str
-    weight: int
-    weight_unit: str
-    notes: str
+    brand: Optional[str]
+    weight_grams: int
+    description: Optional[str]
+    is_consumable: Optional[bool]
+    is_worn: Optional[bool]
+
+    created_at: datetime
+    updated_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
