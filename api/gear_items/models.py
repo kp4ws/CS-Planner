@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List, TYPE_CHECKING
 import uuid
 
 from sqlalchemy import String, ForeignKey, Text, Boolean, UUID
@@ -6,11 +6,14 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from api.core.database import Base, TimestampMixin
 
+#Only imported for IDE, to prevent warning messages
+if TYPE_CHECKING:
+    from api.users.models import User
+    from api.categories.models import Category
+    from api.trip_items.models import TripItem
+
 class GearItem(Base, TimestampMixin):
     __tablename__ = "gear_items"
-
-    user: Mapped["User"] = relationship(back_populates="gear_items")
-    category: Mapped["Category"] = relationship(back_populates="gear_items")
 
     #Primary Key
     id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, index=True, default=uuid.uuid4)
@@ -26,6 +29,11 @@ class GearItem(Base, TimestampMixin):
     description: Mapped[Optional[str]] = mapped_column(Text(500))
     is_consumable: Mapped[bool] = mapped_column(Boolean, server_default="false")
     is_worn: Mapped[bool] = mapped_column(Boolean, server_default="false")
+
+    #Relationships
+    user: Mapped["User"] = relationship(back_populates="gear_items")
+    category: Mapped["Category"] = relationship(back_populates="gear_items")
+    trip_items: Mapped[List["TripItem"]] = relationship(back_populates="gear_item")
 
     def __repr__(self) -> str:
         return f"<GearItem(name={self.name}, brand={self.brand}, description={self.description})>"
