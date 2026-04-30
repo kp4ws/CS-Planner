@@ -1,10 +1,11 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from auth.utils import hash_password, verify_password, create_access_token
 from sqlalchemy.orm import Session
 from api.core.database import get_db
-from users.models import User
-from users.schemas import UserLogin, UserCreate, UserResponse
-from auth.schemas import TokenResponse
+from api.core.exceptions import raise_401, raise_409
+from api.users.models import User
+from api.users.schemas import UserLogin, UserCreate, UserResponse
+from api.auth.schemas import TokenResponse
 
 router = APIRouter()
 
@@ -13,11 +14,11 @@ async def login(request: UserLogin, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.username == request.username).first()
 
     if user is None:
-        raise HTTPException(status_code=401, detail="Invalid credentials")
+        raise_401()
     
     correct_password = verify_password(request.password, user.password)
     if not correct_password:
-        raise HTTPException(status_code=401, detail="Invalid credentials")
+        raise_401()
 
     access_token = create_access_token({"sub": user.username})
 
@@ -31,7 +32,7 @@ async def register(request: UserCreate, db: Session = Depends(get_db)):
     existing_user = db.query(User).filter(User.username == request.username).first()
 
     if existing_user:
-        raise HTTPException(status_code=409, detail="Username already exists")
+        raise_409("User already exists")
 
     new_user = User(
         username=request.username,

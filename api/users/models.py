@@ -1,7 +1,8 @@
 from datetime import datetime
 from typing import Optional
+import uuid
 
-from sqlalchemy import String, DateTime, Boolean, Enum
+from sqlalchemy import String, DateTime, Boolean, Enum, UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
 from api.core.database import Base, TimestampMixin
@@ -10,15 +11,17 @@ from api.core.enums import WeightUnit
 class User(Base, TimestampMixin):
     __tablename__ = "users"
 
-    id: Mapped[int] = mapped_column(primary_key=True, index=True)
+    #Primary Key
+    id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, index=True, default=uuid.uuid4)
 
-    email: Mapped[str] = mapped_column(String(255), unique=True, index=True, nullable=False)
-    username: Mapped[str] = mapped_column(String(50), unique=True, index=True, nullable=False)
-    password_hash: Mapped[str] = mapped_column(String(255), nullable=False)
+    #User Attributes
+    email: Mapped[str] = mapped_column(String(255), unique=True, index=True)
+    username: Mapped[str] = mapped_column(String(50), unique=True, index=True)
+    password_hash: Mapped[str] = mapped_column(String(255))
 
-    last_login: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
+    last_login: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
     
-    is_active: Mapped[bool] = mapped_column(Boolean, default=True)
+    is_active: Mapped[bool] = mapped_column(Boolean, server_default="true")
 
     # TODO: Change location of this as needed
     weight_unit: Mapped[WeightUnit] = mapped_column(

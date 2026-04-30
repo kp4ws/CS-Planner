@@ -1,5 +1,5 @@
-from sqlalchemy import Column, Integer, ForeignKey, String, DateTime
 from datetime import datetime, timezone
+from sqlalchemy import Column, Integer, ForeignKey, String, DateTime
 from api.core.database import Base
 
 class Category(Base):

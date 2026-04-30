@@ -1,6 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from contextlib import asynccontextmanager
+
+from sqlalchemy.exc import IntegrityError
+
 from api.v1.endpoints import v1_router
 from api.core.config import settings
 
@@ -27,7 +31,12 @@ app.add_middleware(
     allow_credentials=True
 )
 
-#TODO Add exception handling
+@app.exception_handler(IntegrityError)
+async def integrity_error_handler(request, exc):
+    return JSONResponse(
+        status_code=400,
+        content={"detail": "Database integrity error"}
+    )
 
 #Register v1 router
 app.include_router(v1_router, prefix="/api/v1")
