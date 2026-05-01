@@ -28,7 +28,7 @@ class Category(Base):
     #Category Attributes
     title: Mapped[str] = mapped_column(String(100), index=True)
     deleted_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
-    is_default: Mapped[bool] = mapped_column(Boolean, server_default="false")
+    is_default: Mapped[bool] = mapped_column(Boolean, server_default="false", default=False)
     # icon: Mapped[str] = mapped_column() TODO: Add in later iteration
     
     #Relationships:

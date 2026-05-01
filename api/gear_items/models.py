@@ -26,9 +26,9 @@ class GearItem(Base, TimestampMixin):
     name: Mapped[str] = mapped_column(String(255), index=True)
     brand: Mapped[Optional[str]] = mapped_column(String(255))
     weight_grams: Mapped[int] = mapped_column(server_default="0", default=0)
-    description: Mapped[Optional[str]] = mapped_column(Text(500))
-    is_consumable: Mapped[bool] = mapped_column(Boolean, server_default="false")
-    is_worn: Mapped[bool] = mapped_column(Boolean, server_default="false")
+    description: Mapped[Optional[str]] = mapped_column(Text())
+    is_consumable: Mapped[bool] = mapped_column(Boolean, server_default="false", default=False)
+    is_worn: Mapped[bool] = mapped_column(Boolean, server_default="false", default=False)
 
     #Relationships
     user: Mapped["User"] = relationship(back_populates="gear_items")

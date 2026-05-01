@@ -26,13 +26,13 @@ class User(Base, TimestampMixin):
 
     last_login: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
     
-    is_active: Mapped[bool] = mapped_column(Boolean, server_default="true")
+    is_active: Mapped[bool] = mapped_column(Boolean, server_default="true", default=True)
 
     # TODO: Change location of this as needed
     weight_unit: Mapped[WeightUnit] = mapped_column(
         Enum(WeightUnit),
         default=WeightUnit.GRAMS,
-        server_default=WeightUnit.GRAMS.value,
+        server_default="GRAMS",
     )
 
     #Relationships

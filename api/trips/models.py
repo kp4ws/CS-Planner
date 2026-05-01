@@ -22,7 +22,7 @@ class Trip(Base, TimestampMixin):
 
     #Trip Attributes
     name: Mapped[str] = mapped_column(String(255), index=True)
-    description: Mapped[Optional[str]] = mapped_column(Text(500))
+    description: Mapped[Optional[str]] = mapped_column(Text())
     location: Mapped[Optional[str]] = mapped_column(String(255))
     start_date: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
 
