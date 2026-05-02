@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends
+from datetime import datetime, timezone
 from typing import List
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -27,8 +28,9 @@ async def create_category(category: CategoryCreate, db: Session = Depends(get_db
 async def get_all_categories(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     return db.execute(
         select(Category).where(
-            Category.user_id == current_user.id)
-        ).scalars().all()
+            Category.user_id == current_user.id,
+            Category.deleted_at.is_(None)
+        )).scalars().all()
 
 #GET SINGLE CATEGORY
 @router.get("/{id}", response_model=CategoryResponse)
@@ -36,7 +38,9 @@ async def get_category(id: uuid.UUID, db: Session = Depends(get_db), current_use
     db_category = db.execute(
         select(Category).where(
             Category.id == id,
-            Category.user_id == current_user.id)
+            Category.user_id == current_user.id,
+            Category.deleted_at.is_(None)
+        )
     ).scalar_one_or_none()
 
     if not db_category:
@@ -50,7 +54,8 @@ async def update_category(id: uuid.UUID, category: CategoryUpdate, db: Session =
     db_category = db.execute(
         select(Category).where(
             Category.id == id,
-            Category.user_id == current_user.id
+            Category.user_id == current_user.id,
+            Category.deleted_at.is_(None)
         )
     ).scalar_one_or_none()
 
@@ -77,8 +82,28 @@ async def delete_category(id: uuid.UUID, db: Session = Depends(get_db), current_
     if not db_category:
         raise_404("Category not found")
 
-    #TODO: We want to change this to soft delete, so users can easily delete and add categories
-    db.delete(db_category)
+    # Soft delete
+    db_category.deleted_at = datetime.now(timezone.utc)
     db.commit()
 
     return {"message": "Category deleted"}
+
+#RESTORE CATEGORY
+@router.post("/{id}/restore", response_model=CategoryResponse)
+async def restore_category(id: uuid.UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    db_category = db.execute(
+        select(Category).where(
+            Category.id == id,
+            Category.user_id == current_user.id,
+            Category.deleted_at.is_not(None)
+        )
+    ).scalar_one_or_none()
+
+    if not db_category:
+        raise_404("Deleted category not found")
+
+    db_category.deleted_at = None
+    db.commit()
+    db.refresh(db_category)
+    
+    return db_category

@@ -19,6 +19,9 @@ async def login(request: UserLogin, db: Session = Depends(get_db)):
 
     if not user:
         raise_401("Incorrect username or password")
+        
+    if not user.is_active:
+        raise_401("Account has been deactivated")
     
     correct_password = verify_password(request.password, user.password_hash)
     if not correct_password:

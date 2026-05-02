@@ -37,12 +37,7 @@ async def update_me(request: UserUpdate, current_user: User = Depends(get_curren
 #DELETE CURRENT USER
 @router.delete("/me")
 async def delete_me(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
-    try:
-        db.delete(current_user)
-        db.commit()
-    except IntegrityError:
-        db.rollback()
-        raise_400("Cannot delete user with existing data that relies on it. Delete other dependencies first")
+    current_user.is_active = False
+    db.commit()
 
-    #TODO for this return and other delete end points, consider returning more professional industry standard response like 200 or whatever
-    return {"message": "User deleted"}
+    return {"message": "User deactivated successfully"}
