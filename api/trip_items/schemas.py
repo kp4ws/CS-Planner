@@ -1,5 +1,5 @@
 from typing import Optional
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 import uuid
 from datetime import datetime
 
@@ -11,13 +11,13 @@ class TripItemCreate(BaseModel):
     is_packed: bool = False
     
     recorded_weight: Optional[int] = None
-    recorded_name: Optional[str] = None
+    recorded_name: Optional[str] = Field(None, max_length=255)
 
 class TripItemUpdate(BaseModel):
     quantity: Optional[int] = None
     is_packed: Optional[bool] = None
     recorded_weight: Optional[int] = None
-    recorded_name: Optional[str] = None
+    recorded_name: Optional[str] = Field(None, max_length=255)
 
 class TripItemResponse(BaseModel):
     id: uuid.UUID
@@ -26,7 +26,7 @@ class TripItemResponse(BaseModel):
 
     quantity: int
     recorded_weight: int
-    recorded_name: str
+    recorded_name: str = Field(..., min_length=1, max_length=255)
     is_packed: bool
 
     created_at: datetime

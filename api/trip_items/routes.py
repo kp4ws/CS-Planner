@@ -1,3 +1,4 @@
+from typing import List
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from sqlalchemy import select
@@ -22,7 +23,7 @@ async def create_trip_item(trip_item: TripItemCreate, db: Session = Depends(get_
     return db_trip_item
 
 #GET ALL TRIP ITEMS
-@router.get("/", response_model=TripItemResponse)
+@router.get("/", response_model=List[TripItemResponse])
 async def get_all_trip_items(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     return db.execute(
         select(TripItem).where(

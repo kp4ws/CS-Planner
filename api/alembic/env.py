@@ -4,6 +4,14 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
+import sys
+import os
+
+# Add the project root to sys.path to ensure absolute imports (like 'api.core...') work
+project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+
 from api.core.config import settings
 from api.core.database import Base
 import api.models

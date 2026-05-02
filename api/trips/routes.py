@@ -23,7 +23,7 @@ async def create_trip(trip: TripCreate, db: Session = Depends(get_db), current_u
     return db_trip
 
 #GET ALL TRIPS
-@router.get("/", response_model=TripResponse)
+@router.get("/", response_model=List[TripResponse])
 async def get_all_trips(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     return db.execute(
         select(Trip).where(

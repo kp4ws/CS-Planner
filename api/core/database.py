@@ -1,7 +1,7 @@
 from datetime import datetime
 from sqlalchemy import create_engine, DateTime, func
 from sqlalchemy.orm import sessionmaker, DeclarativeBase, Mapped, mapped_column
-from .config import settings
+from api.core.config import settings
 
 '''
 Engine manages the connection to the database and handles query execution.

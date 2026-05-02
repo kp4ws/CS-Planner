@@ -2,18 +2,18 @@ from typing import Optional
 from datetime import datetime
 import uuid
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 class CategoryCreate(BaseModel):
-    title: str
+    title: str = Field(..., min_length=1, max_length=100)
 
 class CategoryUpdate(BaseModel):
-    title: Optional[str] = None
+    title: Optional[str] = Field(None, min_length=1, max_length=100)
 
 class CategoryResponse(BaseModel):
     id: uuid.UUID
     user_id: uuid.UUID
-    title: str
+    title: str = Field(..., min_length=1, max_length=100)
     deleted_at: Optional[datetime]
     is_default: bool
     # icon: Mapped[str] = mapped_column() TODO: Add in later iteration

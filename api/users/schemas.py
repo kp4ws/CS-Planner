@@ -1,27 +1,27 @@
 from typing import Optional
 from datetime import datetime
 import uuid
-from pydantic import BaseModel, ConfigDict, EmailStr
+from pydantic import BaseModel, ConfigDict, EmailStr, Field
 from api.core.enums import WeightUnit
 
 class UserLogin(BaseModel):
-    username : str
+    username: str = Field(..., min_length=1, max_length=50)
     password : str
 
 class UserCreate(BaseModel):
-    username: str 
+    username: str = Field(..., min_length=1, max_length=50)
     password: str
-    email: EmailStr
+    email: EmailStr = Field(..., max_length=255)
 
 class UserUpdate(BaseModel):
-    username: Optional[str] = None
-    email: Optional[EmailStr] = None
+    username: Optional[str] = Field(None, min_length=1, max_length=50)
+    email: Optional[EmailStr] = Field(None, max_length=255)
     weight_unit: Optional[WeightUnit] = None
 
 class UserResponse(BaseModel):
     id: uuid.UUID
-    username: str
-    email: EmailStr
+    username: str = Field(..., min_length=1, max_length=50)
+    email: EmailStr = Field(..., max_length=255)
     last_login: Optional[datetime]
     is_active: bool
     weight_unit: WeightUnit
