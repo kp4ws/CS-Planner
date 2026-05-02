@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends
-from auth.utils import hash_password, verify_password, create_access_token
+from sqlalchemy import select
 from sqlalchemy.orm import Session
+from api.auth.utils import hash_password, verify_password, create_access_token
 from api.core.database import get_db
 from api.core.exceptions import raise_401, raise_409
 from api.users.models import User
@@ -11,16 +12,19 @@ router = APIRouter()
 
 @router.post("/login", response_model=TokenResponse)
 async def login(request: UserLogin, db: Session = Depends(get_db)):
-    user = db.query(User).filter(User.username == request.username).first()
+    user = db.execute(
+        select(User).where(
+            User.username == request.username
+        )).scalar_one_or_none()
 
-    if user is None:
-        raise_401()
+    if not user:
+        raise_401("Incorrect username or password")
     
-    correct_password = verify_password(request.password, user.password)
+    correct_password = verify_password(request.password, user.password_hash)
     if not correct_password:
-        raise_401()
+        raise_401("Incorrect username or password")
 
-    access_token = create_access_token({"sub": user.username})
+    access_token = create_access_token({"sub": str(user.id)})
 
     return {"access_token": access_token, "token_type": "bearer"}
 
@@ -29,14 +33,17 @@ async def register(request: UserCreate, db: Session = Depends(get_db)):
     hashed_password = hash_password(request.password)
 
     #Check if user is already in database
-    existing_user = db.query(User).filter(User.username == request.username).first()
+    existing_user = db.execute(
+        select(User).where(
+            ((User.username == request.username) | (User.email == request.email))
+        )).scalar_one_or_none()
 
     if existing_user:
-        raise_409("User already exists")
+        raise_409("A user with this username or email already exists")
 
     new_user = User(
         username=request.username,
-        password=hashed_password,
+        password_hash=hashed_password,
         email=request.email
     )
 

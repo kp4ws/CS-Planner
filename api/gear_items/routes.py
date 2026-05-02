@@ -16,13 +16,13 @@ router = APIRouter()
 @router.post("/", response_model=GearItemResponse)
 async def create_gear_item(gear_item: GearItemCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     db_gear_item = GearItem(**gear_item.model_dump())
-    db_gear_item.user_id = current_user.id #TODO: Confirm this is the proper way to add user id to the gear item
+    db_gear_item.user_id = current_user.id
     db.add(db_gear_item)
     db.commit()
     db.refresh(db_gear_item)
     return db_gear_item
 
-# READ ALL GEAR ITEMS
+# GET ALL GEAR ITEMS
 @router.get("/", response_model=List[GearItemResponse])
 async def get_all_gear_items(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     return db.execute(
@@ -30,7 +30,7 @@ async def get_all_gear_items(db: Session = Depends(get_db), current_user: User =
             GearItem.user_id == current_user.id)
         ).scalars().all()
 
-# READ SINGLE GEAR ITEM
+# GET SINGLE GEAR ITEM
 @router.get("/{id}", response_model=GearItemResponse)
 async def get_gear_item(id: uuid.UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     db_gear_item = db.execute(
@@ -80,4 +80,4 @@ async def delete_gear_item(id: uuid.UUID, db: Session = Depends(get_db), current
     db.delete(db_gear_item)
     db.commit()
 
-    return {"message": "Item deleted"}
+    return {"message": "Gear Item deleted"}
