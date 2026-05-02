@@ -5,13 +5,13 @@ import uuid
 from sqlalchemy import UUID, ForeignKey, String, DateTime, Boolean, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from api.core.database import Base
+from api.core.database import Base, TimestampMixin
 
 if TYPE_CHECKING:
     from api.gear_items.models import GearItem
     from api.users.models import User
 
-class Category(Base):
+class Category(Base, TimestampMixin):
     __tablename__ = "categories"
 
     __table_args__ = (

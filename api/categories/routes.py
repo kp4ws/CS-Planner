@@ -71,14 +71,14 @@ async def delete_category(id: uuid.UUID, db: Session = Depends(get_db), current_
     db_category = db.execute(
         select(Category).where(
         Category.id == id,
-        Category.user_ud == current_user.id
+        Category.user_id == current_user.id
     )).scalar_one_or_none()
 
     if not db_category:
         raise_404("Category not found")
 
     #TODO: We want to change this to soft delete, so users can easily delete and add categories
-    db.delete(Category)
+    db.delete(db_category)
     db.commit()
 
     return {"message": "Category deleted"}
