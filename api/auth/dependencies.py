@@ -11,7 +11,7 @@ from api.core.exceptions import raise_401
 
 # OAuth2PasswordBearer extracts the JWT token from the Authorization header
 # tokenUrl tells FastAPI's /docs UI where the login endpoint is
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
 
 def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     #TODO function documentation needs updating

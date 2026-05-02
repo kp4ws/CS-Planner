@@ -75,4 +75,4 @@ Thumbs.db
 coverage/
 .coverage
 htmlcov/
-/mockups/
+/internal/

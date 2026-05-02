@@ -13,7 +13,7 @@ import uuid
 router = APIRouter()
 
 # CREATE GEAR ITEM
-@router.post("/", response_model=GearItemResponse)
+@router.post("/", status_code=201, response_model=GearItemResponse)
 async def create_gear_item(gear_item: GearItemCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     db_gear_item = GearItem(**gear_item.model_dump())
     db_gear_item.user_id = current_user.id
@@ -66,7 +66,7 @@ async def update_gear_item(id: uuid.UUID, gear_item: GearItemUpdate, db: Session
     return db_gear_item
 
 # DELETE GEAR ITEM
-@router.delete("/{id}")
+@router.delete("/{id}", status_code=204)
 async def delete_gear_item(id: uuid.UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     db_gear_item = db.execute(
         select(GearItem).where(
@@ -80,4 +80,4 @@ async def delete_gear_item(id: uuid.UUID, db: Session = Depends(get_db), current
     db.delete(db_gear_item)
     db.commit()
 
-    return {"message": "Gear Item deleted"}
+    return None

@@ -14,7 +14,7 @@ import uuid
 router = APIRouter()
 
 # CREATE CATEGORY
-@router.post("/", response_model=CategoryResponse)
+@router.post("/", status_code=201, response_model=CategoryResponse)
 async def create_category(category: CategoryCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     db_category = Category(**category.model_dump())
     db_category.user_id = current_user.id
@@ -71,7 +71,7 @@ async def update_category(id: uuid.UUID, category: CategoryUpdate, db: Session =
     return db_category
 
 #DELETE CATEGORY
-@router.delete("/{id}")
+@router.delete("/{id}", status_code=204)
 async def delete_category(id: uuid.UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     db_category = db.execute(
         select(Category).where(
@@ -86,7 +86,7 @@ async def delete_category(id: uuid.UUID, db: Session = Depends(get_db), current_
     db_category.deleted_at = datetime.now(timezone.utc)
     db.commit()
 
-    return {"message": "Category deleted"}
+    return None
 
 #RESTORE CATEGORY
 @router.post("/{id}/restore", response_model=CategoryResponse)

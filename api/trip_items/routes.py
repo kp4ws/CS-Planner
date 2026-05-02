@@ -14,7 +14,7 @@ import uuid
 router = APIRouter()
 
 #CREATE TRIP ITEM
-@router.post("/", response_model=TripItemResponse)
+@router.post("/", status_code=201, response_model=TripItemResponse)
 async def create_trip_item(trip_item: TripItemCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     # Verify the trip belongs to the current user
     db_trip = db.execute(
@@ -76,7 +76,7 @@ async def update_trip_item(id: uuid.UUID, trip_item: TripItemUpdate, db: Session
     return db_trip_item
 
 #DELETE TRIP ITEM
-@router.delete("/{id}")
+@router.delete("/{id}", status_code=204)
 async def delete_trip_item(id: uuid.UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     db_trip_item = db.execute(
         select(TripItem).join(TripItem.trip).where(
@@ -91,4 +91,4 @@ async def delete_trip_item(id: uuid.UUID, db: Session = Depends(get_db), current
     db.delete(db_trip_item)
     db.commit()
 
-    return {"message": "Trip Item deleted"}
+    return None

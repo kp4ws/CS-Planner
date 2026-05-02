@@ -13,7 +13,7 @@ import uuid
 router = APIRouter()
 
 #CREATE TRIP
-@router.post("/", response_model=TripResponse)
+@router.post("/", status_code=201, response_model=TripResponse)
 async def create_trip(trip: TripCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     db_trip = Trip(**trip.model_dump())
     db_trip.user_id = current_user.id
@@ -67,7 +67,7 @@ async def update_trip(id: uuid.UUID, trip: TripUpdate, db: Session = Depends(get
     return db_trip
 
 #DELETE TRIP
-@router.delete("/{id}")
+@router.delete("/{id}", status_code=204)
 async def delete_trip(id: uuid.UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     db_trip = db.execute(
         select(Trip).where(
@@ -82,4 +82,4 @@ async def delete_trip(id: uuid.UUID, db: Session = Depends(get_db), current_user
     db.delete(db_trip)
     db.commit()
 
-    return {"message": "Trip deleted"}
+    return None

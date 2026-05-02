@@ -1,17 +1,18 @@
 from fastapi import APIRouter, Depends
+from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 from api.auth.utils import hash_password, verify_password, create_access_token
 from api.core.database import get_db
 from api.core.exceptions import raise_401, raise_409
 from api.users.models import User
-from api.users.schemas import UserLogin, UserCreate, UserResponse
+from api.users.schemas import UserCreate, UserResponse
 from api.auth.schemas import TokenResponse
 
 router = APIRouter()
 
 @router.post("/login", response_model=TokenResponse)
-async def login(request: UserLogin, db: Session = Depends(get_db)):
+async def login(request: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     user = db.execute(
         select(User).where(
             User.username == request.username

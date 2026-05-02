@@ -6,6 +6,8 @@ from dotenv import find_dotenv
 class Settings(BaseSettings):
     DATABASE_URL: str
     ALLOWED_ORIGINS: Union[str, list[str]] = ["http://localhost:3000"]
+    PROJECT_NAME: str = "TODO: Backpack Pal API"
+    VERSION: str = "0.1.0"
     APP_ENV: str = "development"
     SECRET_KEY: str
     JWT_ALGORITHM: str = "HS256"

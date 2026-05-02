@@ -16,10 +16,10 @@ async def lifespan(app: FastAPI):
     Ensures all models are "seen" by the Base on startup.
     Triggers api/models/__init__.py for importing all models defined in that file.
     '''
-    import models
+    import api.models
     yield
 
-app = FastAPI(title="TODO: Name", lifespan=lifespan)
+app = FastAPI(title=settings.PROJECT_NAME, version=settings.VERSION, lifespan=lifespan)
 
 allowed_origins = settings.ALLOWED_ORIGINS
 

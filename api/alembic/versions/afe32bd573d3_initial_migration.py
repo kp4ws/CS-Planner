@@ -119,4 +119,6 @@ def downgrade() -> None:
     op.drop_index(op.f('ix_users_id'), table_name='users')
     op.drop_index(op.f('ix_users_email'), table_name='users')
     op.drop_table('users')
+    # Explicitly drop the enum type for PostgreSQL
+    sa.Enum(name='weightunit').drop(op.get_bind())
     # ### end Alembic commands ###
