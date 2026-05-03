@@ -36,7 +36,7 @@ export default function Inventory() {
   return (
     <div className="min-h-screen px-6 py-4">
       {/* Inventory Header */}
-      <div className="flex justify-between items-center mb-6">
+      <header className="flex justify-between items-center mb-6">
         {/* TODO: Consider hiding page headers on desktop screens */}
         <h1 className="text-lg md:text-4xl text-white font-bold">Inventory</h1>
 
@@ -49,12 +49,12 @@ export default function Inventory() {
 
           <Filter color="white" size={24} />
         </div>
-      </div>
+      </header>
 
       {/* CATEGORY SECTIONS */}
       <section className="flex flex-col items-start">
         {/* TODO: Icon should be associated with each category */}
-        {CATEGORIES.map((category) => (
+        {categories.map((category) => (
           <CategoryGroup
             key={category}
             title={category}

@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <div className="">
       {/* HERO SECTION */}
-      <section className="py-10 md:py-20 min-h-screen flex flex-col items-center justify-center">
+      <header className="py-10 md:py-20 min-h-screen flex flex-col items-center justify-center">
         <h1 className="text-2xl md:text-4xl font-extrabold text-white mb-4">
           Plan your pack like a <span className="text-green-400">pro</span>
         </h1>
@@ -29,7 +29,7 @@ export default function Home() {
             </Button>
           </Link>
         </div>
-      </section>
+      </header>
 
       {/* TODO: FEATURES SECTION */}
       {/* <section>
