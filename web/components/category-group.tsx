@@ -1,4 +1,4 @@
-import { GearItem } from "@/types";
+import { GearItem } from "@/types/types";
 import GearRow from "@/components/gear-row";
 
 type Props = {

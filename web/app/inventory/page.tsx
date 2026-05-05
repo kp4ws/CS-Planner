@@ -5,28 +5,33 @@ import { Filter } from "lucide-react";
 import { useState, useEffect } from "react";
 
 import CategoryGroup from "@/components/category-group";
-import { GearItem } from "@/types"; //TODO: Since we have GearItem model, can we use that instead here?
 
 export default function Inventory() {
-  const [filter, setFilter] = useState<string | null>(null); //TODO: Create FilterState for more advance filtering
   const [loading, setLoading] = useState<boolean>(true);
-  const [items, setItems] = useState<GearItem[]>([]);
+  const [filter, setFilter] = useState<string | null>(null); //TODO: Create FilterState for more advance filtering
+  // const [categories, setCategories] = useState<>();
+  // const [items, setItems] = useState<GearItem[]>([]);
 
+  //Load categories and inventory items from database
   useEffect(() => {
-    fetch("http://localhost:8000/inventory")
-      .then((res) => res.json())
-      .then((data) => {
-        setItems(data);
-        setLoading(false);
-      });
+
   }, []);
+
+  // useEffect(() => {
+  //   fetch("http://localhost:8000/inventory")
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setItems(data);
+  //       setLoading(false);
+  //     });
+  // }, []);
 
   // TODO: Fetch Categories from database
   // TODO: Should categories be hardcoded? Is having them the database going to slow down the website?
 
-  const handleEdit = (item: GearItem) => {
+  // const handleEdit = (item: GearItem) => {
 
-  };
+  // };
 
   const handleDelete = (id: string) => {
 
@@ -54,7 +59,7 @@ export default function Inventory() {
       {/* CATEGORY SECTIONS */}
       <section className="flex flex-col items-start">
         {/* TODO: Icon should be associated with each category */}
-        {categories.map((category) => (
+        {/* {categories.map((category) => (
           <CategoryGroup
             key={category}
             title={category}
@@ -62,7 +67,7 @@ export default function Inventory() {
             onEdit={(item) => handleEdit(item)}
             onDelete={(id) => handleDelete(id)}
           />
-        ))}
+        ))} */}
       </section>
 
       {/* FOOTER SECTION (ADD BUTTON) */}

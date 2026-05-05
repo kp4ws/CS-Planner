@@ -1,4 +1,4 @@
-import { GearItem } from "@/types";
+import { GearItem } from "@/types/types";
 import { Button } from "./ui/button";
 import { SquarePen, Trash} from "lucide-react";
 

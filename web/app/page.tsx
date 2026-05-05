@@ -39,6 +39,8 @@ export default function Home() {
       {/* HOW IT WORKS SECTION */}
 
       {/* CALL TO ACTION SECTION */}
+
+      {/* TESTIMONIALS SECTION */}
     </div>
   );
 }
