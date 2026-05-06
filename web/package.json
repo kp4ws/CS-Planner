@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "gen-types": "npx openapi-typescript http://localhost:8001/openapi.json --output ./types/schema.ts"
+    "gen-types": "npx openapi-typescript http://localhost:8001/openapi.json -o ./types/schema.ts"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
