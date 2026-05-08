@@ -10,3 +10,4 @@ python-jose[cryptography]==3.5.0
 pydantic-settings==2.14.0
 email-validator==2.3.0
 python-multipart==0.0.27
+clerk-backend-api==5.0.6
