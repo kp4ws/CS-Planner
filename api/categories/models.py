@@ -1,5 +1,5 @@
-from datetime import datetime, timezone
-from typing import Optional, List, TYPE_CHECKING
+from datetime import datetime
+from typing import Optional, TYPE_CHECKING
 import uuid
 
 from sqlalchemy import UUID, ForeignKey, String, DateTime, Boolean, UniqueConstraint
@@ -20,19 +20,19 @@ class Category(Base, TimestampMixin):
     )
 
     #Primary Key
-    id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, index=True, default=uuid.uuid4)
+    id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
 
     #Foreign Key
-    user_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("users.id"))
+    user_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("users.id"), index=True)
     
     #Category Attributes
-    title: Mapped[str] = mapped_column(String(100), index=True)
+    title: Mapped[str] = mapped_column(String(100))
     deleted_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
     is_default: Mapped[bool] = mapped_column(Boolean, server_default="false", default=False)
     # icon: Mapped[str] = mapped_column() TODO: Add in later iteration
     
     #Relationships:
-    gear_items: Mapped[List["GearItem"]] = relationship(back_populates="category")
+    gear_items: Mapped[list["GearItem"]] = relationship(back_populates="category")
     user: Mapped["User"] = relationship(back_populates="categories")
 
     def __repr__(self) -> str:

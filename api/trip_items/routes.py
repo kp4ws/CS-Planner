@@ -1,13 +1,9 @@
-from typing import List
-from fastapi import APIRouter, Depends
-from sqlalchemy.orm import Session
+from fastapi import APIRouter
 from sqlalchemy import select
-from api.core.database import get_db
+from api.auth.dependencies import DBSession, CurrentUser
 from api.core.exceptions import raise_404
-from api.users.models import User
 from api.trips.models import Trip
 from api.trip_items.models import TripItem
-from api.auth.dependencies import get_current_user
 from api.trip_items.schemas import TripItemCreate, TripItemUpdate, TripItemResponse
 import uuid
 
@@ -15,7 +11,7 @@ router = APIRouter()
 
 #CREATE TRIP ITEM
 @router.post("/", status_code=201, response_model=TripItemResponse)
-async def create_trip_item(trip_item: TripItemCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+async def create_trip_item(trip_item: TripItemCreate, db: DBSession, current_user: CurrentUser):
     # Verify the trip belongs to the current user
     db_trip = db.execute(
         select(Trip).where(Trip.id == trip_item.trip_id, Trip.user_id == current_user.id)
@@ -31,8 +27,8 @@ async def create_trip_item(trip_item: TripItemCreate, db: Session = Depends(get_
     return db_trip_item
 
 #GET ALL TRIP ITEMS
-@router.get("/", response_model=List[TripItemResponse])
-async def get_all_trip_items(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+@router.get("/", response_model=list[TripItemResponse])
+async def get_all_trip_items(db: DBSession, current_user: CurrentUser):
     return db.execute(
         select(TripItem).join(TripItem.trip).where(
             Trip.user_id == current_user.id
@@ -41,7 +37,7 @@ async def get_all_trip_items(db: Session = Depends(get_db), current_user: User =
 
 #GET SINGLE TRIP ITEM
 @router.get("/{id}", response_model=TripItemResponse)
-async def get_trip_item(id: uuid.UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+async def get_trip_item(id: uuid.UUID, db: DBSession, current_user: CurrentUser):
     db_trip_item = db.execute(
         select(TripItem).join(TripItem.trip).where(
             TripItem.id == id,
@@ -56,7 +52,7 @@ async def get_trip_item(id: uuid.UUID, db: Session = Depends(get_db), current_us
 
 #UPDATE TRIP ITEM
 @router.patch("/{id}", response_model=TripItemResponse)
-async def update_trip_item(id: uuid.UUID, trip_item: TripItemUpdate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+async def update_trip_item(id: uuid.UUID, trip_item: TripItemUpdate, db: DBSession, current_user: CurrentUser):
     db_trip_item = db.execute(
         select(TripItem).join(TripItem.trip).where(
             TripItem.id == id,
@@ -77,7 +73,7 @@ async def update_trip_item(id: uuid.UUID, trip_item: TripItemUpdate, db: Session
 
 #DELETE TRIP ITEM
 @router.delete("/{id}", status_code=204)
-async def delete_trip_item(id: uuid.UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+async def delete_trip_item(id: uuid.UUID, db: DBSession, current_user: CurrentUser):
     db_trip_item = db.execute(
         select(TripItem).join(TripItem.trip).where(
             TripItem.id == id,
@@ -91,4 +87,4 @@ async def delete_trip_item(id: uuid.UUID, db: Session = Depends(get_db), current
     db.delete(db_trip_item)
     db.commit()
 
-    return None
+    return None

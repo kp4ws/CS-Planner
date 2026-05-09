@@ -1,8 +1,8 @@
 from datetime import datetime
-from typing import Optional, List, TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING
 import uuid
 
-from sqlalchemy import String, DateTime, Boolean, Enum, UUID, UniqueConstraint
+from sqlalchemy import String, DateTime, Boolean, Enum, UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from api.core.database import Base, TimestampMixin
@@ -18,11 +18,11 @@ class User(Base, TimestampMixin):
 
     #Primary Key
     id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, index=True, default=uuid.uuid4)
+    clerk_id: Mapped[str] = mapped_column(String(255), unique=True, index=True)
 
     #User Attributes
-    email: Mapped[str] = mapped_column(String(255), unique=True, index=True)
-    username: Mapped[str] = mapped_column(String(50), unique=True, index=True)
-    password_hash: Mapped[str] = mapped_column(String(255))
+    email: Mapped[str] = mapped_column(String(255), unique=True)
+    username: Mapped[str] = mapped_column(String(50), unique=True)
 
     last_login: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
     
@@ -36,9 +36,9 @@ class User(Base, TimestampMixin):
     )
 
     #Relationships
-    categories: Mapped[List["Category"]] = relationship(back_populates="user")
-    gear_items: Mapped[List["GearItem"]] = relationship(back_populates="user")
-    trips: Mapped[List["Trip"]] = relationship(back_populates="user")
+    categories: Mapped[list["Category"]] = relationship(back_populates="user")
+    gear_items: Mapped[list["GearItem"]] = relationship(back_populates="user")
+    trips: Mapped[list["Trip"]] = relationship(back_populates="user")
 
     def __repr__(self) -> str:
         return f"<User(username={self.username}, email={self.email})>"

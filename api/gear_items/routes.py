@@ -1,20 +1,16 @@
-from fastapi import APIRouter, Depends
-from sqlalchemy.orm import Session
+from fastapi import APIRouter
 from sqlalchemy import select
-from api.core.database import get_db
-from api.auth.dependencies import get_current_user
+from api.auth.dependencies import DBSession, CurrentUser
 from api.core.exceptions import raise_404
-from api.users.models import User
 from api.gear_items.models import GearItem
 from api.gear_items.schemas import GearItemResponse, GearItemCreate, GearItemUpdate
-from typing import List
 import uuid
 
 router = APIRouter()
 
 # CREATE GEAR ITEM
 @router.post("/", status_code=201, response_model=GearItemResponse)
-async def create_gear_item(gear_item: GearItemCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+async def create_gear_item(gear_item: GearItemCreate, db: DBSession, current_user: CurrentUser):
     db_gear_item = GearItem(**gear_item.model_dump())
     db_gear_item.user_id = current_user.id
     db.add(db_gear_item)
@@ -23,8 +19,8 @@ async def create_gear_item(gear_item: GearItemCreate, db: Session = Depends(get_
     return db_gear_item
 
 # GET ALL GEAR ITEMS
-@router.get("/", response_model=List[GearItemResponse])
-async def get_all_gear_items(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+@router.get("/", response_model=list[GearItemResponse])
+async def get_all_gear_items(db: DBSession, current_user: CurrentUser):
     return db.execute(
         select(GearItem).where(
             GearItem.user_id == current_user.id)
@@ -32,7 +28,7 @@ async def get_all_gear_items(db: Session = Depends(get_db), current_user: User =
 
 # GET SINGLE GEAR ITEM
 @router.get("/{id}", response_model=GearItemResponse)
-async def get_gear_item(id: uuid.UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+async def get_gear_item(id: uuid.UUID, db: DBSession, current_user: CurrentUser):
     db_gear_item = db.execute(
         select(GearItem).where(
             GearItem.id == id,
@@ -47,7 +43,7 @@ async def get_gear_item(id: uuid.UUID, db: Session = Depends(get_db), current_us
 # UPDATE GEAR ITEM
 #Patch allows the gear item to be partially updated which is why it was chosen over put
 @router.patch("/{id}", response_model=GearItemResponse)
-async def update_gear_item(id: uuid.UUID, gear_item: GearItemUpdate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+async def update_gear_item(id: uuid.UUID, gear_item: GearItemUpdate, db: DBSession, current_user: CurrentUser):
     db_gear_item = db.execute(
         select(GearItem).where(
             GearItem.id == id,
@@ -67,7 +63,7 @@ async def update_gear_item(id: uuid.UUID, gear_item: GearItemUpdate, db: Session
 
 # DELETE GEAR ITEM
 @router.delete("/{id}", status_code=204)
-async def delete_gear_item(id: uuid.UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+async def delete_gear_item(id: uuid.UUID, db: DBSession, current_user: CurrentUser):
     db_gear_item = db.execute(
         select(GearItem).where(
             GearItem.id == id,
@@ -80,4 +76,4 @@ async def delete_gear_item(id: uuid.UUID, db: Session = Depends(get_db), current
     db.delete(db_gear_item)
     db.commit()
 
-    return None
+    return None

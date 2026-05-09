@@ -1,4 +1,4 @@
-from typing import Optional, List, TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING
 import uuid
 
 from sqlalchemy import String, ForeignKey, Text, Boolean, UUID
@@ -16,14 +16,14 @@ class GearItem(Base, TimestampMixin):
     __tablename__ = "gear_items"
 
     #Primary Key
-    id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, index=True, default=uuid.uuid4)
+    id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
 
     #Foreign Keys
-    user_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("users.id"))
-    category_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("categories.id"))
+    user_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("users.id"), index=True)
+    category_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("categories.id"), index=True)
 
     #GearItem Attributes
-    name: Mapped[str] = mapped_column(String(255), index=True)
+    name: Mapped[str] = mapped_column(String(255))
     brand: Mapped[Optional[str]] = mapped_column(String(255))
     weight_grams: Mapped[int] = mapped_column(server_default="0", default=0)
     description: Mapped[Optional[str]] = mapped_column(Text())
@@ -33,7 +33,7 @@ class GearItem(Base, TimestampMixin):
     #Relationships
     user: Mapped["User"] = relationship(back_populates="gear_items")
     category: Mapped["Category"] = relationship(back_populates="gear_items")
-    trip_items: Mapped[List["TripItem"]] = relationship(back_populates="gear_item")
+    trip_items: Mapped[list["TripItem"]] = relationship(back_populates="gear_item")
 
     def __repr__(self) -> str:
         return f"<GearItem(name={self.name}, brand={self.brand}, description={self.description})>"

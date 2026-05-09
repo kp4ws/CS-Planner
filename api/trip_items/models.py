@@ -18,17 +18,17 @@ class TripItem(Base, TimestampMixin):
     )
 
     #Primary Key
-    id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, index=True, default=uuid.uuid4)
+    id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
 
     #Foreign Keys
-    trip_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("trips.id", ondelete="CASCADE"))
+    trip_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("trips.id", ondelete="CASCADE"), index=True)
     #Making gear_item_id optional allows for the gear item to be deleted without deleting the tripitem
-    gear_item_id: Mapped[Optional[uuid.UUID]] = mapped_column(ForeignKey("gear_items.id", ondelete="SET NULL"))
+    gear_item_id: Mapped[Optional[uuid.UUID]] = mapped_column(ForeignKey("gear_items.id", ondelete="SET NULL"), index=True)
 
     #Trip Attributes
     quantity: Mapped[int] = mapped_column(server_default="1", default=1)
     recorded_weight: Mapped[int] = mapped_column(server_default="0", default=0)
-    recorded_name: Mapped[str] = mapped_column(String(255), index=True)
+    recorded_name: Mapped[str] = mapped_column(String(255))
     is_packed: Mapped[bool] = mapped_column(Boolean, server_default="false", default=False)
 
     #Relationships

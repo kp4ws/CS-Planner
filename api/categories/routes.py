@@ -1,21 +1,17 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
 from datetime import datetime, timezone
-from typing import List
 from sqlalchemy import select
-from sqlalchemy.orm import Session
-from api.users.models import User
 from api.categories.models import Category
 from api.categories.schemas import CategoryResponse, CategoryCreate, CategoryUpdate
-from api.core.database import get_db
 from api.core.exceptions import raise_404
-from api.auth.dependencies import get_current_user
+from api.auth.dependencies import DBSession, CurrentUser
 import uuid
 
 router = APIRouter()
 
 # CREATE CATEGORY
 @router.post("/", status_code=201, response_model=CategoryResponse)
-async def create_category(category: CategoryCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+async def create_category(category: CategoryCreate, db: DBSession, current_user: CurrentUser):
     db_category = Category(**category.model_dump())
     db_category.user_id = current_user.id
     db.add(db_category)
@@ -24,8 +20,8 @@ async def create_category(category: CategoryCreate, db: Session = Depends(get_db
     return db_category
 
 #GET ALL CATEGORIES
-@router.get("/", response_model=List[CategoryResponse])
-async def get_all_categories(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+@router.get("/", response_model=list[CategoryResponse])
+async def get_all_categories(db: DBSession, current_user: CurrentUser):
     return db.execute(
         select(Category).where(
             Category.user_id == current_user.id,
@@ -34,7 +30,7 @@ async def get_all_categories(db: Session = Depends(get_db), current_user: User =
 
 #GET SINGLE CATEGORY
 @router.get("/{id}", response_model=CategoryResponse)
-async def get_category(id: uuid.UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+async def get_category(id: uuid.UUID, db: DBSession, current_user: CurrentUser):
     db_category = db.execute(
         select(Category).where(
             Category.id == id,
@@ -50,7 +46,7 @@ async def get_category(id: uuid.UUID, db: Session = Depends(get_db), current_use
 
 #UPDATE CATEGORY
 @router.patch("/{id}", response_model=CategoryResponse)
-async def update_category(id: uuid.UUID, category: CategoryUpdate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+async def update_category(id: uuid.UUID, category: CategoryUpdate, db: DBSession, current_user: CurrentUser):
     db_category = db.execute(
         select(Category).where(
             Category.id == id,
@@ -72,7 +68,7 @@ async def update_category(id: uuid.UUID, category: CategoryUpdate, db: Session =
 
 #DELETE CATEGORY
 @router.delete("/{id}", status_code=204)
-async def delete_category(id: uuid.UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+async def delete_category(id: uuid.UUID, db: DBSession, current_user: CurrentUser):
     db_category = db.execute(
         select(Category).where(
         Category.id == id,
@@ -90,7 +86,7 @@ async def delete_category(id: uuid.UUID, db: Session = Depends(get_db), current_
 
 #RESTORE CATEGORY
 @router.post("/{id}/restore", response_model=CategoryResponse)
-async def restore_category(id: uuid.UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+async def restore_category(id: uuid.UUID, db: DBSession, current_user: CurrentUser):
     db_category = db.execute(
         select(Category).where(
             Category.id == id,

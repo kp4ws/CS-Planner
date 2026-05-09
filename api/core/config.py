@@ -1,17 +1,21 @@
-from typing import Union, Any
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from typing import Annotated
+from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
 from pydantic import field_validator
 from dotenv import find_dotenv
+from functools import lru_cache
 
 class Settings(BaseSettings):
     DATABASE_URL: str
-    ALLOWED_ORIGINS: Union[str, list[str]] = ["http://localhost:3000"]
     PROJECT_NAME: str = "TODO: Backpack Pal API"
     VERSION: str = "0.1.0"
     APP_ENV: str = "development"
-    SECRET_KEY: str
-    JWT_ALGORITHM: str = "HS256"
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
+
+    ALLOWED_ORIGINS: Annotated[list[str], NoDecode] = []
+
+    #CLERK settings
+    CLERK_SECRET_KEY: str
+    CLERK_JWT_KEY: str | None = None
+    CLERK_AUTHORIZED_PARTIES: Annotated[list[str], NoDecode] = []
 
     @field_validator("DATABASE_URL")
     @classmethod
@@ -24,20 +28,24 @@ class Settings(BaseSettings):
             return raw_url_value.replace("postgresql://", "postgresql+psycopg2://", 1)
         return raw_url_value
     
-    @field_validator("ALLOWED_ORIGINS", mode="before")
+    @field_validator("ALLOWED_ORIGINS", "CLERK_AUTHORIZED_PARTIES", mode="before")
     @classmethod
-    def split_allowed_origins(settings_class, raw_csv_origins: Any) -> list[str]:
+    def split_csv(settings_class, raw_csv: str | list[str]) -> list[str]:
         """
-        Ensures ALLOWED_ORIGINS is split into a list of strings
+        Ensures CSV variables are split into a list of strings
         """
-        if isinstance(raw_csv_origins, str) and raw_csv_origins.strip():
-            return [origin.strip() for origin in raw_csv_origins.split(",")]
-        if isinstance(raw_csv_origins, list):
-            return raw_csv_origins
+        if isinstance(raw_csv, str) and raw_csv.strip():
+            return [origin.strip() for origin in raw_csv.split(",")]
+        if isinstance(raw_csv, list):
+            return raw_csv
         return []
-    
+
     model_config = SettingsConfigDict(env_file=find_dotenv(), 
                                       env_file_encoding="utf-8",
                                       extra="ignore")
+
+@lru_cache
+def get_settings() -> Settings:
+    return Settings()
 
 settings = Settings()
