@@ -21,8 +21,8 @@ class User(Base, TimestampMixin):
     clerk_id: Mapped[str] = mapped_column(String(255), unique=True)
 
     #User Attributes
-    email: Mapped[str] = mapped_column(String(255), unique=True)
-    username: Mapped[str] = mapped_column(String(50), unique=True)
+    email: Mapped[Optional[str]] = mapped_column(String(255), unique=True, nullable=True)
+    username: Mapped[Optional[str]] = mapped_column(String(50), unique=True, nullable=True)
 
     last_login: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
     

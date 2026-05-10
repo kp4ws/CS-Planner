@@ -8,6 +8,7 @@ from functools import lru_cache
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
+from sqlalchemy.exc import IntegrityError
 
 from api.core.config import Settings, get_settings
 from api.core.exceptions import raise_401
@@ -52,10 +53,16 @@ async def get_current_user(
 
     #For first time users login (user is registered in Clerk but not yet in db)
     if not user:
-        user = User(clerk_id = clerk_id)
-        db.add(user)
-        db.commit()
-        db.refresh(user)
+        try:
+            user = User(clerk_id = clerk_id)
+            db.add(user)
+            db.commit()
+            db.refresh(user)
+        except IntegrityError:
+            db.rollback()
+            user = db.execute(
+                select(User).where(User.clerk_id == clerk_id)
+            ).scalar_one_or_none()
 
     if not user or not user.is_active:
         raise_401("User not found or inactive")

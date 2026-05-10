@@ -9,7 +9,7 @@ import uuid
 router = APIRouter()
 
 # CREATE GEAR ITEM
-@router.post("/", status_code=201, response_model=GearItemResponse)
+@router.post("", status_code=201, response_model=GearItemResponse)
 async def create_gear_item(gear_item: GearItemCreate, db: DBSession, current_user: CurrentUser):
     db_gear_item = GearItem(**gear_item.model_dump())
     db_gear_item.user_id = current_user.id
@@ -19,7 +19,7 @@ async def create_gear_item(gear_item: GearItemCreate, db: DBSession, current_use
     return db_gear_item
 
 # GET ALL GEAR ITEMS
-@router.get("/", response_model=list[GearItemResponse])
+@router.get("", response_model=list[GearItemResponse])
 async def get_all_gear_items(db: DBSession, current_user: CurrentUser):
     return db.execute(
         select(GearItem).where(

@@ -10,7 +10,7 @@ import uuid
 router = APIRouter()
 
 # CREATE CATEGORY
-@router.post("/", status_code=201, response_model=CategoryResponse)
+@router.post("", status_code=201, response_model=CategoryResponse)
 async def create_category(category: CategoryCreate, db: DBSession, current_user: CurrentUser):
     db_category = Category(**category.model_dump())
     db_category.user_id = current_user.id
@@ -20,7 +20,7 @@ async def create_category(category: CategoryCreate, db: DBSession, current_user:
     return db_category
 
 #GET ALL CATEGORIES
-@router.get("/", response_model=list[CategoryResponse])
+@router.get("", response_model=list[CategoryResponse])
 async def get_all_categories(db: DBSession, current_user: CurrentUser):
     return db.execute(
         select(Category).where(

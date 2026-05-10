@@ -10,7 +10,7 @@ import uuid
 router = APIRouter()
 
 #CREATE TRIP ITEM
-@router.post("/", status_code=201, response_model=TripItemResponse)
+@router.post("", status_code=201, response_model=TripItemResponse)
 async def create_trip_item(trip_item: TripItemCreate, db: DBSession, current_user: CurrentUser):
     # Verify the trip belongs to the current user
     db_trip = db.execute(
@@ -27,7 +27,7 @@ async def create_trip_item(trip_item: TripItemCreate, db: DBSession, current_use
     return db_trip_item
 
 #GET ALL TRIP ITEMS
-@router.get("/", response_model=list[TripItemResponse])
+@router.get("", response_model=list[TripItemResponse])
 async def get_all_trip_items(db: DBSession, current_user: CurrentUser):
     return db.execute(
         select(TripItem).join(TripItem.trip).where(

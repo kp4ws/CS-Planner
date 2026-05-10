@@ -1,6 +1,6 @@
 export const config = {
     api: {
-        baseUrl: process.env.NEXT_PUBLIC_API_URL || "http://localhost:8001",
+        baseUrl: (process.env.NEXT_PUBLIC_API_URL || "http://localhost:8001") + "/api/v1",
     },
     clerk: {
         publishableKey: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || "",
