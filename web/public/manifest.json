@@ -1,6 +1,6 @@
 {
-    "name": "Backpack Pal",
-    "short_name": "TrailKit",
+    "name": "BackpackPal",
+    "short_name": "BackpackPal",
     "description": "Strategic gear planning.",
     "start_url": "/",
     "display": "standalone",

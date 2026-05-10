@@ -14,11 +14,10 @@ export default function GlobalError({
   useEffect(() => {
     logger.error("Global UI Crash", error);
   }, [error]);
-
+// TODO: update error page layout
   return (
     <div className="">
-        TODO:
-        <h2>App ran into Error!</h2>
+        <h2 className="text-white">BackpackPal ran into Error!</h2>
         <Button onClick={() => reset()} size="lg">
             Try again
         </Button>

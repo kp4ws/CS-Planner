@@ -1,7 +1,7 @@
 {
-  "name": "backpack-pal-web",
+  "name": "backpackpal-web",
   "version": "0.1.0",
-  "description": "Backpack Pal - Application for planning backpacking trips",
+  "description": "BackpackPal - Application for planning backpacking trips",
   "private": true,
   "scripts": {
     "dev": "next dev",

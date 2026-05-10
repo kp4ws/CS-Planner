@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { SignInButton, SignUpButton, Show, UserButton } from "@clerk/nextjs";
 
 // TODO: Replace login buttons with Clerk Buttons
-
 export default function NavBar() {
   return (
     <nav className="sticky top-0 z-50 bg-emerald-950">
@@ -17,7 +16,7 @@ export default function NavBar() {
           href="/"
           className="text-lg md:text-xl font-bold text-white hover:text-emerald-200"
         >
-          Backpack Pal
+          BackpackPal
         </Link>
 
         {/* DESKTOP NAVIGATION */}
