@@ -17,7 +17,7 @@ export default function GlobalError({
 // TODO: update error page layout
   return (
     <div className="">
-        <h2 className="text-white">BackpackPal ran into Error!</h2>
+        <h2 className="text-2xl font-bold text-white mb-4">Stashmatic has stumbled!</h2>
         <Button onClick={() => reset()} size="lg">
             Try again
         </Button>

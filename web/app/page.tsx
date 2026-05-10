@@ -15,19 +15,15 @@ export default function HomePage() {
           your loadout, know your weight.
         </p>
 
-        <div className="flex items-center gap-2">
-          <Link href="/planner">
+        <div className="flex flex-wrap items-center justify-center gap-4">
+          {/* TODO: Add back in later */}
+          {/* <Link href="/planner">
             <Button size="lg" className="gap-2">
               <Zap size={20} />
               Start building
             </Button>
-          </Link>
-          <Link href="/register">
-            <Button size="lg" className="gap-2">
-              {/* TODO: <Zap size={20} /> */}
-              Create account
-            </Button>
-          </Link>
+          </Link> */}
+          
         </div>
       </header>
 

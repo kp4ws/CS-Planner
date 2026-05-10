@@ -6,7 +6,7 @@ from functools import lru_cache
 
 class Settings(BaseSettings):
     DATABASE_URL: str
-    PROJECT_NAME: str = "BackpackPal API"
+    PROJECT_NAME: str = "Stashmatic API"
     VERSION: str = "0.1.0"
     APP_ENV: str = "development"
 

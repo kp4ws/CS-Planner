@@ -1,6 +1,6 @@
 {
-    "name": "BackpackPal",
-    "short_name": "BackpackPal",
+    "name": "Stashmatic",
+    "short_name": "Stashmatic",
     "description": "Strategic gear planning.",
     "start_url": "/",
     "display": "standalone",

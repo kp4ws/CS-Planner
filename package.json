@@ -1,8 +1,8 @@
 {
-  "name": "backpackpal-monorepo",
+  "name": "stashmatic-monorepo",
   "version": "0.1.0",
   "private": true,
-  "description": "Root workspace scripts for BackpackPal",
+  "description": "Root workspace scripts for Stashmatic",
   "scripts": {
     "dev:api": ".\\api\\.venv\\Scripts\\python -m uvicorn api.main:app --reload --port 8001 --env-file api/.env",
     "dev:web": "npm run dev --prefix web",
