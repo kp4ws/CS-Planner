@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 from datetime import datetime, timezone
 from sqlalchemy import select
+from sqlalchemy import or_
 from api.categories.models import Category
 from api.categories.schemas import CategoryResponse, CategoryCreate, CategoryUpdate
 from api.core.exceptions import raise_404
@@ -24,7 +25,10 @@ async def create_category(category: CategoryCreate, db: DBSession, current_user:
 async def get_all_categories(db: DBSession, current_user: CurrentUser):
     return db.execute(
         select(Category).where(
-            Category.user_id == current_user.id,
+            or_(
+                Category.user_id == current_user.id,
+                Category.is_default == True,
+            ),
             Category.deleted_at.is_(None)
         )).scalars().all()
 
@@ -34,7 +38,10 @@ async def get_category(id: uuid.UUID, db: DBSession, current_user: CurrentUser):
     db_category = db.execute(
         select(Category).where(
             Category.id == id,
-            Category.user_id == current_user.id,
+            or_(
+                Category.user_id == current_user.id,
+                Category.is_default == True,
+            ),
             Category.deleted_at.is_(None)
         )
     ).scalar_one_or_none()

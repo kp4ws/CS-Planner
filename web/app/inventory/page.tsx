@@ -1,42 +1,30 @@
 "use client";
 
+import { useInventory } from "@/hooks/features/use-inventory";
 import { Button } from "@/components/ui/button";
 import { Filter } from "lucide-react";
-import { useState, useEffect } from "react";
-
-// import CategoryGroup from "@/components/category-group";
+import { logger } from "@/lib/logger";
 
 export default function InventoryPage() {
-  const [loading, setLoading] = useState<boolean>(true);
-  const [filter, setFilter] = useState<string | null>(null); //TODO: Create FilterState for more advance filtering
-  // const [categories, setCategories] = useState<>();
-  // const [items, setItems] = useState<GearItem[]>([]);
+  const { items, categories, isLoading, error, deleteItem } = useInventory();
 
-  //Load categories and inventory items from database
-  useEffect(() => {
+  if (error) {
+    // TODO: Refactor error screen
+    return (
+      <div className="">
+        <h2 className="text-white">Failed to load inventory</h2>
+      </div>
+    );
+  }
 
-  }, []);
-
-  // useEffect(() => {
-  //   fetch("http://localhost:8000/inventory")
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setItems(data);
-  //       setLoading(false);
-  //     });
-  // }, []);
-
-  // TODO: Fetch Categories from database
-  // TODO: Should categories be hardcoded? Is having them the database going to slow down the website?
-
-  // const handleEdit = (item: GearItem) => {
-
-  // };
-
-  const handleDelete = (id: string) => {
-
-  };
-
+  if (!isLoading) {
+    logger.info(
+      "Category Titles:",
+      categories.map((c) => c.title),
+    );
+  } else {
+    logger.info("Data is loading");
+  }
 
   return (
     <div className="min-h-screen px-6 py-4">
@@ -57,17 +45,12 @@ export default function InventoryPage() {
       </header>
 
       {/* CATEGORY SECTIONS */}
-      <section className="flex flex-col items-start">
-        {/* TODO: Icon should be associated with each category */}
-        {/* {categories.map((category) => (
-          <CategoryGroup
-            key={category}
-            title={category}
-            items={items?.filter((item) => item.category === category)}
-            onEdit={(item) => handleEdit(item)}
-            onDelete={(id) => handleDelete(id)}
-          />
-        ))} */}
+      <section className="flex flex-col items-start gap-4">
+        {categories.map((category) => (
+          <h1 key={category.id} className="text-xl font-semibold text-white">
+            {category.title}
+          </h1>
+        ))}
       </section>
 
       {/* FOOTER SECTION (ADD BUTTON) */}

@@ -12,7 +12,7 @@ class CategoryUpdate(BaseModel):
 
 class CategoryResponse(BaseModel):
     id: uuid.UUID
-    user_id: str
+    user_id: uuid.UUID
     title: str = Field(..., min_length=1, max_length=100)
     deleted_at: Optional[datetime]
     is_default: bool

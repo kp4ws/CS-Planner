@@ -23,7 +23,7 @@ export interface paths {
         patch: operations["update_me_api_v1_users_me_patch"];
         trace?: never;
     };
-    "/api/v1/categories/": {
+    "/api/v1/categories": {
         parameters: {
             query?: never;
             header?: never;
@@ -31,10 +31,10 @@ export interface paths {
             cookie?: never;
         };
         /** Get All Categories */
-        get: operations["get_all_categories_api_v1_categories__get"];
+        get: operations["get_all_categories_api_v1_categories_get"];
         put?: never;
         /** Create Category */
-        post: operations["create_category_api_v1_categories__post"];
+        post: operations["create_category_api_v1_categories_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -77,7 +77,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/gear_items/": {
+    "/api/v1/gear_items": {
         parameters: {
             query?: never;
             header?: never;
@@ -85,10 +85,10 @@ export interface paths {
             cookie?: never;
         };
         /** Get All Gear Items */
-        get: operations["get_all_gear_items_api_v1_gear_items__get"];
+        get: operations["get_all_gear_items_api_v1_gear_items_get"];
         put?: never;
         /** Create Gear Item */
-        post: operations["create_gear_item_api_v1_gear_items__post"];
+        post: operations["create_gear_item_api_v1_gear_items_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -114,7 +114,7 @@ export interface paths {
         patch: operations["update_gear_item_api_v1_gear_items__id__patch"];
         trace?: never;
     };
-    "/api/v1/trip_items/": {
+    "/api/v1/trip_items": {
         parameters: {
             query?: never;
             header?: never;
@@ -122,10 +122,10 @@ export interface paths {
             cookie?: never;
         };
         /** Get All Trip Items */
-        get: operations["get_all_trip_items_api_v1_trip_items__get"];
+        get: operations["get_all_trip_items_api_v1_trip_items_get"];
         put?: never;
         /** Create Trip Item */
-        post: operations["create_trip_item_api_v1_trip_items__post"];
+        post: operations["create_trip_item_api_v1_trip_items_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -151,7 +151,7 @@ export interface paths {
         patch: operations["update_trip_item_api_v1_trip_items__id__patch"];
         trace?: never;
     };
-    "/api/v1/trips/": {
+    "/api/v1/trips": {
         parameters: {
             query?: never;
             header?: never;
@@ -159,10 +159,10 @@ export interface paths {
             cookie?: never;
         };
         /** Get All Trips */
-        get: operations["get_all_trips_api_v1_trips__get"];
+        get: operations["get_all_trips_api_v1_trips_get"];
         put?: never;
         /** Create Trip */
-        post: operations["create_trip_api_v1_trips__post"];
+        post: operations["create_trip_api_v1_trips_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -221,7 +221,10 @@ export interface components {
              * Format: uuid
              */
             id: string;
-            /** User Id */
+            /**
+             * User Id
+             * Format: uuid
+             */
             user_id: string;
             /** Title */
             title: string;
@@ -598,7 +601,7 @@ export interface operations {
             };
         };
     };
-    get_all_categories_api_v1_categories__get: {
+    get_all_categories_api_v1_categories_get: {
         parameters: {
             query?: never;
             header?: never;
@@ -618,7 +621,7 @@ export interface operations {
             };
         };
     };
-    create_category_api_v1_categories__post: {
+    create_category_api_v1_categories_post: {
         parameters: {
             query?: never;
             header?: never;
@@ -777,7 +780,7 @@ export interface operations {
             };
         };
     };
-    get_all_gear_items_api_v1_gear_items__get: {
+    get_all_gear_items_api_v1_gear_items_get: {
         parameters: {
             query?: never;
             header?: never;
@@ -797,7 +800,7 @@ export interface operations {
             };
         };
     };
-    create_gear_item_api_v1_gear_items__post: {
+    create_gear_item_api_v1_gear_items_post: {
         parameters: {
             query?: never;
             header?: never;
@@ -925,7 +928,7 @@ export interface operations {
             };
         };
     };
-    get_all_trip_items_api_v1_trip_items__get: {
+    get_all_trip_items_api_v1_trip_items_get: {
         parameters: {
             query?: never;
             header?: never;
@@ -945,7 +948,7 @@ export interface operations {
             };
         };
     };
-    create_trip_item_api_v1_trip_items__post: {
+    create_trip_item_api_v1_trip_items_post: {
         parameters: {
             query?: never;
             header?: never;
@@ -1073,7 +1076,7 @@ export interface operations {
             };
         };
     };
-    get_all_trips_api_v1_trips__get: {
+    get_all_trips_api_v1_trips_get: {
         parameters: {
             query?: never;
             header?: never;
@@ -1093,7 +1096,7 @@ export interface operations {
             };
         };
     };
-    create_trip_api_v1_trips__post: {
+    create_trip_api_v1_trips_post: {
         parameters: {
             query?: never;
             header?: never;
