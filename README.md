@@ -1,4 +1,4 @@
-# Backpack Pal
+# Stashmatic
 
 > **Status:** 🚧 In Progress
 
