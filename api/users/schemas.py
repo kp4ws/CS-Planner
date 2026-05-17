@@ -4,12 +4,6 @@ import uuid
 from pydantic import BaseModel, ConfigDict, EmailStr, Field
 from api.core.enums import WeightUnit
 
-
-class UserCreate(BaseModel):
-    username: str = Field(..., min_length=1, max_length=50)
-    password: str
-    email: EmailStr = Field(..., max_length=255)
-
 class UserUpdate(BaseModel):
     username: Optional[str] = Field(None, min_length=1, max_length=50)
     email: Optional[EmailStr] = Field(None, max_length=255)
