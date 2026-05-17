@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { logger } from "@/lib/logger";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 
 export default function GlobalError({
   error,
