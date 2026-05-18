@@ -1,6 +1,5 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
-//TODO: Update this accordingly
 const isProtectedRoute = createRouteMatcher([
   '/trips(.*)',
   '/inventory(.*)',
