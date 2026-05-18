@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/Sheet";
 import { Button } from "@/components/ui/Button";
-import { SignInButton, SignUpButton, Show, UserButton } from "@clerk/nextjs";
+// import { SignInButton, SignUpButton, Show, UserButton } from "@clerk/nextjs";
 
 export default function NavBar() {
   return (
@@ -18,9 +18,11 @@ export default function NavBar() {
           Stashmatic
         </Link>
 
+        <Button size="lg" className="gap-2">TEST BUTTON</Button>
+
         {/* DESKTOP NAVIGATION */}
         <div className="hidden md:flex items-center gap-3 md:gap-6">
-          <Show when="signed-out">
+          {/* <Show when="signed-out">
             <SignInButton mode="modal">
               <Button size="lg" className="gap-2">Login</Button>
             </SignInButton>
@@ -30,7 +32,7 @@ export default function NavBar() {
           </Show>
           <Show when="signed-in">
             <UserButton />
-          </Show>
+          </Show> */}
         </div>
 
         {/* MOBILE Menu */}
@@ -42,7 +44,7 @@ export default function NavBar() {
           </SheetTrigger>
           <SheetContent className="bg-emerald-950 [&_button]:text-white">
             <div className="flex flex-col items-center gap-4 mt-8">
-              <Show when="signed-out">
+              {/* <Show when="signed-out">
                 <SignInButton mode="modal">
                   <span className="text-lg text-white hover:text-emerald-200 cursor-pointer">Login</span>
                 </SignInButton>
@@ -52,7 +54,7 @@ export default function NavBar() {
               </Show>
               <Show when="signed-in">
                 <UserButton />
-              </Show>
+              </Show> */}
 
               <hr className="w-full border-emerald-800 my-2" />
 
