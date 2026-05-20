@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "generate:types": "npx openapi-typescript https://stashmatic-api.fly.dev/openapi.json -o types/schema.ts"
+    "generate:types": "npx openapi-typescript https://api.stashmatic.pawson.dev/openapi.json -o types/schema.ts"
   },
   "dependencies": {
     "@clerk/nextjs": "^7.3.2",

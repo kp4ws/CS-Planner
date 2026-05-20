@@ -39,7 +39,7 @@ async def integrity_error_handler(request, exc):
     )
 
 #Register v1 router
-app.include_router(v1_router, prefix="/api/v1")
+app.include_router(v1_router, prefix="/v1")
 
 @app.get("/")
 async def root():
