@@ -19,8 +19,6 @@ A full-stack web application designed to help people manage their backpacking tr
 - FastAPI (Python)
 - PostgreSQL
 - SQLAlchemy + Alembic (Migrations)
-- Hosted on Render
 
 **Architecture:**
 - Domain-driven modular design
-- JWT Auth
